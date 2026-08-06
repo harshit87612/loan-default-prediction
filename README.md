@@ -1,6 +1,6 @@
 # Loan Default Prediction
 
-A machine learning project that predicts whether a borrower will default on a loan using a dataset of over 255,000 consumer lending records. The project follows a complete machine learning pipeline—from exploratory data analysis and formal statistical testing to preprocessing and model comparison across Logistic Regression, Random Forest, and XGBoost—with an emphasis on statistically justifying every preprocessing decision rather than applying it by convention.
+A machine learning project that predicts whether a borrower will default on a loan using a dataset of over 255,000 consumer lending records. The project follows a complete machine learning pipeline, from exploratory data analysis and formal statistical testing to preprocessing and model comparison across Logistic Regression, Random Forest, and XGBoost, with an emphasis on statistically justifying every preprocessing decision rather than applying it by convention.
 
 ## Project Structure
 
@@ -23,8 +23,8 @@ loan-default-prediction/
 - **Source:** [Loan Default Prediction Dataset](https://www.kaggle.com/datasets/nikhil1e9/loan-default/data) (Kaggle, nikhil1e9)
 - **License:** [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)
 - **Size:** 255,347 rows × 18 columns
-- **Target:** `Default` (binary) — 88.4% non-default, 11.6% default (imbalanced)
-- **Features:** Demographic information (Age, Income, Education, Marital Status), loan attributes (Loan Amount, Interest Rate, Loan Term, Loan Purpose), and credit/employment history (Credit Score, Months Employed, Employment Type, DTI Ratio, Number of Credit Lines, Has Mortgage, Has Dependents, Has Co-Signer).
+- **Target:** `Default` (binary) - 88.4% non-default, 11.6% default (imbalanced)
+- **Features:** Demographic information (Age, Income, Education, Marital Status), loan attributes (Loan Amount, Interest Rate, Loan Term, Loan Purpose), and credit/employment history (Credit Score, Months Employed, Employment Type, DTI Ratio, Number of Credit Lines, Has Mortgage, Has Dependents, Has Co-Signer)
 
 ---
 
@@ -35,13 +35,13 @@ loan-default-prediction/
 The analysis began with understanding the structure and quality of the dataset before building any models.
 
 - Checked feature distributions, missing values (none), and duplicate records (none).
-- Assessed outliers using the 1.5×IQR rule—no numeric feature contained observations outside the accepted range.
+- Assessed outliers using the 1.5×IQR rule, and no numeric feature contained observations outside the accepted range.
 - Evaluated multicollinearity using **Pearson correlation** and **Variance Inflation Factor (VIF)**, which indicated negligible correlation among numeric predictors.
 - Performed **Levene's test** to assess variance homogeneity. Since equal variances could not be assumed, **Welch's independent samples t-test** was used instead of Student's t-test.
 - Tested every feature for association with the target variable:
   - **Categorical features:** Chi-square test of independence with Cramér's V for effect size.
   - **Numerical features:** Welch's independent samples t-test with Cohen's d for effect size.
-- A key finding was that **LoanTerm** was the only feature not significantly associated with loan default (p = 0.78) and was therefore removed. Although most remaining variables showed only small or negligible individual effect sizes, they were retained because weak predictors can still improve model performance when considered together.
+- A key finding was that **LoanTerm** was the only feature not significantly associated with loan default (p = 0.78), so it was removed. Although most remaining variables showed only small or negligible individual effect sizes, they were retained because weak predictors can still improve model performance when considered together.
 
 ---
 
@@ -64,7 +64,7 @@ Three supervised learning algorithms were trained in increasing order of complex
 | Model | Tuning method | Notes |
 |---|---|---|
 | Logistic Regression | GridSearchCV (5-fold stratified CV) over `C` and solver | `class_weight='balanced'` used to address class imbalance |
-| Random Forest | RandomizedSearchCV (30 iterations, 5-fold CV) | Baseline model showed severe overfitting (train ROC-AUC = 1.00 vs test ROC-AUC ≈ 0.74); tuning substantially reduced this |
+| Random Forest | RandomizedSearchCV (30 iterations, 5-fold CV) | Baseline model showed severe overfitting, with train ROC-AUC = 1.00 vs test ROC-AUC ≈ 0.74; tuning substantially reduced this |
 | XGBoost | RandomizedSearchCV (30 iterations, 5-fold CV) | Used `scale_pos_weight` to account for class imbalance |
 
 Because the dataset is highly imbalanced, model evaluation prioritized **ROC-AUC** and **Average Precision** over overall accuracy, which can be misleading in imbalanced classification problems.
@@ -117,7 +117,7 @@ pip install -r requirements.txt
 
 Run the notebooks in the following order:
 
-```
+```text
 01_eda.ipynb
 → 02_preprocessing.ipynb
 → 03_modeling.ipynb
